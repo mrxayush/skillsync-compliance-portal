@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  skillsync-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skillsync-fullstack
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: always
