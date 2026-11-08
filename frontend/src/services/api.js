@@ -1,16 +1,30 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (typeof window !== 'undefined' && window.location.origin.includes('localhost:3000') 
-    ? 'http://localhost:8080/api' 
-    : '/api');
+// If running on Vercel or cloud and VITE_API_BASE_URL is not set, default to Render backend
+const DEFAULT_CLOUD_BACKEND = 'https://skillsync-compliance-portal.onrender.com/api';
+
+const resolveBaseUrl = () => {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  if (typeof window !== 'undefined') {
+    if (window.location.origin.includes('localhost:3000')) {
+      return 'http://localhost:8080/api';
+    }
+    // If hosted on Vercel, point to Render backend
+    if (window.location.origin.includes('vercel.app')) {
+      return DEFAULT_CLOUD_BACKEND;
+    }
+  }
+  return '/api';
+};
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: resolveBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  timeout: 60000, // 60s timeout to allow Render free tier cold-start wakeups
 });
 
 // Response interceptor for clear error surfacing

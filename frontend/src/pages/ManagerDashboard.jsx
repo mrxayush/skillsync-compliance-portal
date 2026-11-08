@@ -66,6 +66,7 @@ const ManagerDashboard = ({ selectedEmployee, onNotification }) => {
       <div className="state-panel loading-state">
         <div className="spinner"></div>
         <p>Synchronizing compliance telemetry from Spring Boot backend...</p>
+        <p className="hint">Connecting to cloud backend (takes ~30s on cold start)...</p>
       </div>
     );
   }

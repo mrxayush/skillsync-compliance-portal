@@ -55,6 +55,7 @@ function App() {
           <div className="state-panel loading-state">
             <div className="spinner"></div>
             <p>Initializing SkillSync Enterprise Portal...</p>
+            <p className="hint">Waking up cloud backend (takes ~30s on initial load)...</p>
           </div>
         ) : (
           <ManagerDashboard
