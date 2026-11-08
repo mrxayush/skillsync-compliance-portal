@@ -1,0 +1,38 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Maven Wrapper Script for UNIX/Linux (Render, Railway, Ubuntu)
+# ----------------------------------------------------------------------------
+set -e
+
+WRAPPER_JAR=".mvn/wrapper/maven-wrapper.jar"
+WRAPPER_URL="https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.2.0/maven-wrapper-3.2.0.jar"
+
+# Resolve directories
+PRG="$0"
+while [ -h "$PRG" ]; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`/"$link"
+  fi
+done
+BASE_DIR=`dirname "$PRG"`
+
+# Download wrapper jar if not present
+if [ ! -f "$BASE_DIR/$WRAPPER_JAR" ]; then
+    mkdir -p "$BASE_DIR/.mvn/wrapper"
+    if command -v curl > /dev/null 2>&1; then
+        curl -fsSL "$WRAPPER_URL" -o "$BASE_DIR/$WRAPPER_JAR"
+    elif command -v wget > /dev/null 2>&1; then
+        wget -q "$WRAPPER_URL" -O "$BASE_DIR/$WRAPPER_JAR"
+    fi
+fi
+
+# Fallback to system mvn if wrapper jar couldn't be loaded or execute wrapper
+if [ -f "$BASE_DIR/$WRAPPER_JAR" ]; then
+    exec java -jar "$BASE_DIR/$WRAPPER_JAR" "$@"
+else
+    exec mvn "$@"
+fi
