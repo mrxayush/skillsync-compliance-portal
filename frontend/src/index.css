@@ -869,3 +869,257 @@ body {
   border-radius: 4px;
   font-family: monospace;
 }
+
+
+/* ========================================================
+   ROLE-BASED AUTH & LOGIN PAGE STYLES (RBAC)
+   ======================================================== */
+.auth-view {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 540px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-logo {
+  font-size: 32px;
+  background: var(--primary-light);
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.login-header h2 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+}
+
+.login-subtext {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 10px 16px;
+  margin-top: 8px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0 18px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.login-divider span {
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.persona-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.persona-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.persona-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+  background: white;
+}
+
+.persona-manager:hover {
+  border-color: #8b5cf6;
+}
+
+.persona-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.persona-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.persona-role {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.persona-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.persona-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.persona-manager .persona-badge {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.persona-dev .persona-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.login-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+/* Navbar RBAC Enhancements */
+.avatar-manager {
+  background: #7c3aed;
+}
+
+.avatar-dev {
+  background: var(--primary);
+}
+
+.user-role-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.btn-logout {
+  font-size: 12px;
+  padding: 5px 10px;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.btn-logout:hover {
+  background: var(--danger-light);
+  border-color: #f87171;
+}
+
+.developer-view-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
+.dev-pill-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.dev-pill-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Role Tags on Profile Banner */
+.role-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+}
+
+.role-tag-manager {
+  background: #ede9fe;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+}
+
+.role-tag-dev {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid #bfdbfe;
+}
+
+.rbac-notice-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}

@@ -5,7 +5,9 @@ import TaskStatusUpdateModal from '../components/tasks/TaskStatusUpdateModal';
 import AssignTaskModal from '../components/tasks/AssignTaskModal';
 import { taskService } from '../services/taskService';
 
-const ManagerDashboard = ({ selectedEmployee, onNotification }) => {
+const ManagerDashboard = ({ currentUser, selectedEmployee, onNotification }) => {
+  const isManager = currentUser?.role === 'ROLE_MANAGER';
+
   const [metrics, setMetrics] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,6 +52,10 @@ const ManagerDashboard = ({ selectedEmployee, onNotification }) => {
   };
 
   const handleDeleteTask = async (taskId) => {
+    if (!isManager) {
+      onNotification('Unauthorized: Only Lead Auditors can delete compliance tasks.', 'error');
+      return;
+    }
     if (window.confirm('Are you sure you want to remove this compliance task?')) {
       try {
         await taskService.deleteTask(taskId);
@@ -97,6 +103,9 @@ const ManagerDashboard = ({ selectedEmployee, onNotification }) => {
             <div className="profile-name-row">
               <h2 className="profile-name">{selectedEmployee?.fullName}</h2>
               <span className="profile-badge">{selectedEmployee?.employeeCode}</span>
+              <span className={`role-tag ${isManager ? 'role-tag-manager' : 'role-tag-dev'}`}>
+                {isManager ? 'Auditing as Manager' : 'My Developer Profile'}
+              </span>
             </div>
             <p className="profile-meta">
               <strong>{selectedEmployee?.designation}</strong> • {selectedEmployee?.department} • 
@@ -123,7 +132,11 @@ const ManagerDashboard = ({ selectedEmployee, onNotification }) => {
           tasks={tasks}
           onEditTask={(task) => setActiveTaskForEdit(task)}
           onDeleteTask={handleDeleteTask}
-          onOpenAssignModal={() => setIsAssignModalOpen(true)}
+          onOpenAssignModal={() => {
+            if (isManager) setIsAssignModalOpen(true);
+            else onNotification('Access Denied: Only Managers can assign new tasks.', 'error');
+          }}
+          isManager={isManager}
         />
       </section>
 
@@ -136,7 +149,7 @@ const ManagerDashboard = ({ selectedEmployee, onNotification }) => {
         />
       )}
 
-      {isAssignModalOpen && (
+      {isAssignModalOpen && isManager && (
         <AssignTaskModal
           employee={selectedEmployee}
           onClose={() => setIsAssignModalOpen(false)}

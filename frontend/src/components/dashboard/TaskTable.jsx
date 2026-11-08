@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TaskTable = ({ tasks, onEditTask, onDeleteTask, onOpenAssignModal }) => {
+const TaskTable = ({ tasks, onEditTask, onDeleteTask, onOpenAssignModal, isManager }) => {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -42,14 +42,24 @@ const TaskTable = ({ tasks, onEditTask, onDeleteTask, onOpenAssignModal }) => {
     <div className="task-table-wrapper">
       <div className="table-header-controls">
         <div className="table-heading-group">
-          <h3>Compliance Verification Checklist</h3>
-          <p className="section-desc">Track and audit developer environment and regulatory milestones.</p>
+          <h3>
+            {isManager ? 'Compliance Verification Checklist' : 'My Mandatory Onboarding Roadmap'}
+          </h3>
+          <p className="section-desc">
+            {isManager
+              ? 'Audit and oversee developer regulatory milestones and security deliverables.'
+              : 'Complete each milestone and submit proof (certificates, commit links) for manager signoff.'}
+          </p>
         </div>
 
         <div className="header-actions">
-          <button className="btn btn-primary" onClick={onOpenAssignModal}>
-            + Assign Compliance Task
-          </button>
+          {isManager ? (
+            <button className="btn btn-primary" onClick={onOpenAssignModal}>
+              + Assign Compliance Task
+            </button>
+          ) : (
+            <span className="rbac-notice-badge">🔒 Assigned by Governance Lead</span>
+          )}
         </div>
       </div>
 
@@ -80,7 +90,11 @@ const TaskTable = ({ tasks, onEditTask, onDeleteTask, onOpenAssignModal }) => {
         <div className="empty-state">
           <div className="empty-icon">📂</div>
           <h4>No compliance tasks found</h4>
-          <p>Try adjusting your search criteria or assign a new task to this developer.</p>
+          <p>
+            {isManager
+              ? 'Try adjusting your search criteria or assign a new task to this developer.'
+              : 'You have no tasks matching this filter.'}
+          </p>
         </div>
       ) : (
         <div className="table-responsive">
@@ -130,15 +144,18 @@ const TaskTable = ({ tasks, onEditTask, onDeleteTask, onOpenAssignModal }) => {
                         className="btn btn-sm btn-outline"
                         onClick={() => onEditTask(task)}
                       >
-                        Update
+                        {isManager ? 'Audit / Update' : 'Submit Proof'}
                       </button>
-                      <button
-                        className="btn btn-sm btn-danger-outline"
-                        onClick={() => onDeleteTask(task.id)}
-                        title="Delete task"
-                      >
-                        ✕
-                      </button>
+                      {/* Only Managers can delete tasks */}
+                      {isManager && (
+                        <button
+                          className="btn btn-sm btn-danger-outline"
+                          onClick={() => onDeleteTask(task.id)}
+                          title="Delete compliance task (Manager Only)"
+                        >
+                          ✕
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
